@@ -22,3 +22,7 @@ CREATE TABLE booking(
     FOREIGN KEY (show_id) REFERENCES showtimes(st_id)
 
 );
+
+
+ALTER TABLE movie 
+ADD movie_image VARCHAR(255);
