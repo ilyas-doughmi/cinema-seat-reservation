@@ -118,7 +118,7 @@ $available_movies = $movies->getAllMovies();
                     <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
                         <div class="reveal-content">
                             <h3 class="text-2xl font-bold text-white mb-1 uppercase tracking-wider font-serif"><?= $mv["movie_name"] ?></h3>
-                            <a href="seat-reservation.html" class="border border-white text-white px-6 py-3 text-xs font-bold tracking-widest hover:bg-white hover:text-black transition inline-block">
+                            <a href="reservation.php?movie=<?= $mv["movie_id"] ?>" class="border border-white text-white px-6 py-3 text-xs font-bold tracking-widest hover:bg-white hover:text-black transition inline-block">
                                 GET TICKETS
                             </a>
                         </div>
