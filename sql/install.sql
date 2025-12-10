@@ -15,14 +15,13 @@ CREATE TABLE showtimes(
 );
 CREATE TABLE booking(
     booking_id INT PRIMARY KEY AUTO_INCREMENT,
-    price DECIMAL(5,2),
     user_name VARCHAR(100),
     seat_number INT,
     show_id INT,
-    FOREIGN KEY (show_id) REFERENCES showtimes(st_id)
-
+    time_id INT,
+    FOREIGN KEY (show_id) REFERENCES showtimes(st_id),
+    FOREIGN KEY (time_id) REFERENCES showtimes(st_id)
 );
-
 
 ALTER TABLE movie 
 ADD movie_image VARCHAR(255);
