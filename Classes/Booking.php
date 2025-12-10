@@ -14,4 +14,13 @@ Class Booking extends db{
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    public function reserveMovie($username,$movie_selected,$seat_number,$time){
+        $query = "INSERT INTO booking(user_name,show_id,seat_number,time_id) VALUES(:username,:movie,:seatnumber,:time_selected)";
+        $stmt= $this->connect()->prepare($query);
+        $stmt->bindParam(":username",$username);
+        $stmt->bindParam(":movie",$movie_selected);
+        $stmt->bindParam(":seatnumber",$seat_number);
+        $stmt->bindParam(":time_selected",$time);
+        return $stmt->execute();
+    }
 }
