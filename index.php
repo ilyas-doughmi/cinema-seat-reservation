@@ -6,6 +6,11 @@ require_once("Classes/Movie.php");
 $movies = new Movie();
 $available_movies = $movies->getAllMovies();
 
+$booking_success = false;
+if(isset($_GET['reservation']) && $_GET['reservation'] === 'success'){
+    $booking_success = true;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +30,20 @@ $available_movies = $movies->getAllMovies();
                     colors: {
                         'lux-gold': '#D4AF37', 
                         'lux-black': '#000000',
+                    },
+                    animation: {
+                        'slide-down': 'slideDown 0.5s ease-out forwards',
+                        'fade-out': 'fadeOut 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        slideDown: {
+                            '0%': { transform: 'translate(-50%, -100%)', opacity: '0' },
+                            '100%': { transform: 'translate(-50%, 0)', opacity: '1' },
+                        },
+                        fadeOut: {
+                            '0%': { opacity: '1' },
+                            '100%': { opacity: '0', pointerEvents: 'none' },
+                        }
                     }
                 }
             }
@@ -38,7 +57,6 @@ $available_movies = $movies->getAllMovies();
             background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 50%, #000000 100%);
         }
 
-        
         .movie-card {
             transition: all 0.5s ease-out;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -68,13 +86,44 @@ $available_movies = $movies->getAllMovies();
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased relative">
 
+    <?php if($booking_success): ?>
+    <div id="success-toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 z-[100] animate-slide-down">
+        <div class="bg-[#111] border border-lux-gold/50 text-white px-8 py-5 rounded-lg shadow-[0_0_50px_rgba(212,175,55,0.2)] flex items-center gap-5 min-w-[350px]">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full border border-lux-gold flex items-center justify-center text-lux-gold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+            </div>
+            
+            <div class="flex-1">
+                <h4 class="font-bold text-lux-gold tracking-widest uppercase text-xs mb-1">Payment Successful</h4>
+                <p class="text-sm text-gray-300">Your seats have been booked.</p>
+            </div>
+
+            <button onclick="document.getElementById('success-toast').style.display='none'" class="text-gray-500 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <script>
+            setTimeout(() => {
+                const toast = document.getElementById('success-toast');
+                if(toast) {
+                    toast.classList.add('animate-fade-out');
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 5000); 
+        </script>
+    </div>
+    <?php endif; ?>
     <nav class="fixed w-full z-50 top-0 py-6 px-8 flex justify-between items-center bg-gradient-to-b from-black to-transparent">
         <div class="text-2xl font-bold tracking-[0.2em] text-white">
             ONYX<span class="text-lux-gold">.</span>
         </div>
-
     </nav>
 
     <header class="relative w-full h-[90vh] flex items-end pb-20">
